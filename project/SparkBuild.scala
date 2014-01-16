@@ -327,7 +327,12 @@ object SparkBuild extends Build {
     name := "spark-mllib",
     libraryDependencies ++= Seq(
       "org.jblas" % "jblas" % "1.2.3",
-      "org.scalanlp" %% "breeze" % "0.5.2"
+      // TODO - Breeze 0.5.2 breaks on Jenkins due to failing to find
+      // BLAS, see
+      // https://groups.google.com/forum/#!topic/scala-breeze/l3nDzgPxbY8
+      // for more discussion. Ultimately, this shouldn't use a
+      // SNAPSHOT version.
+      "org.scalanlp" %% "breeze" % "0.6-SNAPSHOT"
     )
   )
 
