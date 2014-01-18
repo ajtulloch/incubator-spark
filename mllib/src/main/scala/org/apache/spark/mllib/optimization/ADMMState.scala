@@ -24,7 +24,13 @@ import org.apache.spark.util.Vector
  * The state kept on each partition - the data points, and the x,
  * y, u vectors at each iteration.
  */
-case class ADMMState(points: Array[LabeledPoint], x: Vector, z: Vector, u: Vector)
+case class ADMMState(
+  points: Array[LabeledPoint],
+  x: Vector,
+  z: Vector,
+  u: Vector,
+  // dual variables used by some algorithms
+  dual: Option[Vector])
 
 object ADMMState {
   def apply(points: Seq[LabeledPoint], initialWeights: Array[Double]): ADMMState = {
@@ -32,7 +38,8 @@ object ADMMState {
       points = points.toArray,
       x = Vector(initialWeights),
       z = zeroes(initialWeights.length),
-      u = zeroes(initialWeights.length)
+      u = zeroes(initialWeights.length),
+      dual = None
     )
   }
 
